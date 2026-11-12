@@ -32,4 +32,4 @@ The bundled local demo database has one account:
 - **Username:** `admin`
 - **Password:** `admin123`
 
-This is a demo credential, not suitable for a public deployment. Change it before exposing the app to other users.
+This is a demo credential, not suitable for a public deployment.
