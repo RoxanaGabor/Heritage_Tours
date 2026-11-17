@@ -47,5 +47,5 @@ function getAvailabilityByTourID(tourID) {
 module.exports = {
   getToursByCity,
   getToursByCityAndTheme,
-  getAvailabilityByTourID
+  getAvailabilityByTourID,
 };

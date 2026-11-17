@@ -5,7 +5,9 @@ function login(req, res) {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ error: "Username and password are required" });
+    return res
+      .status(400)
+      .json({ error: "Username and password are required" });
   }
 
   userDao.findUserByUsername(username, async (err, user) => {
@@ -33,13 +35,13 @@ function login(req, res) {
 
     req.session.user = {
       username: user.username,
-      isAdmin: user.isAdmin
+      isAdmin: user.isAdmin,
     };
 
     res.json({
       message: "Login successful",
       username: user.username,
-      isAdmin: user.isAdmin
+      isAdmin: user.isAdmin,
     });
   });
 }
@@ -58,12 +60,12 @@ function status(req, res) {
   res.json({
     loggedIn: true,
     username: req.session.user.username,
-    isAdmin: req.session.user.isAdmin
+    isAdmin: req.session.user.isAdmin,
   });
 }
 
 module.exports = {
   login,
   logout,
-  status
+  status,
 };

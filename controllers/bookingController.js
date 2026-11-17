@@ -28,7 +28,9 @@ function startOfTodayUtc() {
 
 async function getMyBookings(req, res) {
   try {
-    const bookings = await bookingDao.getBookingsByUsername(req.session.user.username);
+    const bookings = await bookingDao.getBookingsByUsername(
+      req.session.user.username,
+    );
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ error: "Failed to retrieve bookings" });
@@ -42,7 +44,9 @@ async function createBooking(req, res) {
   const username = req.session.user.username;
 
   if (!tourID || !theDate || !visitors) {
-    return res.status(400).json({ error: "Tour, date and visitors are required" });
+    return res
+      .status(400)
+      .json({ error: "Tour, date and visitors are required" });
   }
 
   if (!Number.isInteger(tourID) || tourID <= 0) {
@@ -50,7 +54,9 @@ async function createBooking(req, res) {
   }
 
   if (!Number.isInteger(visitors) || visitors <= 0) {
-    return res.status(400).json({ error: "Visitors must be a positive whole number" });
+    return res
+      .status(400)
+      .json({ error: "Visitors must be a positive whole number" });
   }
 
   const bookingDate = parseTourDate(theDate);
@@ -60,15 +66,26 @@ async function createBooking(req, res) {
   }
 
   if (bookingDate < startOfTodayUtc()) {
-    return res.status(400).json({ error: "Bookings cannot be made for past dates" });
+    return res
+      .status(400)
+      .json({ error: "Bookings cannot be made for past dates" });
   }
 
   try {
-    const booking = await bookingDao.createBooking({ tourID, theDate, username, visitors });
-    res.status(201).json({ message: "Booking successful", bookingID: booking.bookingID });
+    const booking = await bookingDao.createBooking({
+      tourID,
+      theDate,
+      username,
+      visitors,
+    });
+    res
+      .status(201)
+      .json({ message: "Booking successful", bookingID: booking.bookingID });
   } catch (err) {
     if (err.code === "NO_AVAILABILITY") {
-      return res.status(404).json({ error: "No availability found for that tour date" });
+      return res
+        .status(404)
+        .json({ error: "No availability found for that tour date" });
     }
 
     if (err.code === "NOT_ENOUGH_PLACES") {
@@ -81,5 +98,5 @@ async function createBooking(req, res) {
 
 module.exports = {
   getMyBookings,
-  createBooking
+  createBooking,
 };

@@ -49,5 +49,5 @@ async function getAvailability(req, res) {
 module.exports = {
   getToursByCity,
   getToursByCityAndTheme,
-  getAvailability
+  getAvailability,
 };

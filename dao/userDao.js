@@ -9,5 +9,5 @@ function findUserByUsername(username, callback) {
 }
 
 module.exports = {
-  findUserByUsername
+  findUserByUsername,
 };

@@ -18,7 +18,7 @@ let markers = [];
 const map = L.map("map").setView([52.3555, -1.1743], 6);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "&copy; OpenStreetMap contributors"
+  attribution: "&copy; OpenStreetMap contributors",
 }).addTo(map);
 
 setTimeout(() => {
@@ -61,7 +61,7 @@ function formatTourDate(value) {
     weekday: "short",
     day: "numeric",
     month: "short",
-    year: "numeric"
+    year: "numeric",
   });
 }
 
@@ -104,7 +104,10 @@ async function getAvailability(tourID) {
 function dateOptionsHtml(tourID, availability) {
   const datalistId = `dates-${tourID}`;
   const options = availability
-    .map((item) => `<option value="${yyMMddToDateInput(item.theDate)}">${formatTourDate(item.theDate)}</option>`)
+    .map(
+      (item) =>
+        `<option value="${yyMMddToDateInput(item.theDate)}">${formatTourDate(item.theDate)}</option>`,
+    )
     .join("");
 
   return `<datalist id="${datalistId}">${options}</datalist>`;
@@ -118,7 +121,9 @@ function bookingFormHtml(tour, availability, compact = false) {
   const dates = availability.map((item) => yyMMddToDateInput(item.theDate));
   const minDate = dates[0];
   const maxDate = dates[dates.length - 1];
-  const maxVisitors = Math.max(...availability.map((item) => Number(item.maxPlaces)));
+  const maxVisitors = Math.max(
+    ...availability.map((item) => Number(item.maxPlaces)),
+  );
   const listId = `dates-${tour.id}`;
 
   return `
@@ -191,8 +196,8 @@ loginForm.addEventListener("submit", async (event) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username: usernameInput.value.trim(),
-        password: passwordInput.value.trim()
-      })
+        password: passwordInput.value.trim(),
+      }),
     });
 
     const result = await response.json();
@@ -382,7 +387,9 @@ async function submitBooking(form) {
   const visitors = Number(form.elements.visitors.value);
   const theDate = dateInputToYYMMDD(selectedDate);
   const availability = availabilityCache.get(tourID) || [];
-  const selectedAvailability = availability.find((item) => item.theDate === theDate);
+  const selectedAvailability = availability.find(
+    (item) => item.theDate === theDate,
+  );
 
   hideSuccess();
 
@@ -397,7 +404,10 @@ async function submitBooking(form) {
   }
 
   if (visitors > selectedAvailability.maxPlaces) {
-    setStatus(`Only ${selectedAvailability.maxPlaces} places are available on that date.`, true);
+    setStatus(
+      `Only ${selectedAvailability.maxPlaces} places are available on that date.`,
+      true,
+    );
     return;
   }
 
@@ -405,7 +415,7 @@ async function submitBooking(form) {
     const response = await fetch("/api/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tourID, theDate, visitors })
+      body: JSON.stringify({ tourID, theDate, visitors }),
     });
 
     const result = await response.json();

@@ -67,11 +67,11 @@ function createBooking({ tourID, theDate, username, visitors }) {
 
                     resolve({ bookingID: this.lastID });
                   });
-                }
+                },
               );
-            }
+            },
           );
-        }
+        },
       );
     });
   });
@@ -89,5 +89,5 @@ function rollbackWithCode(reject, code) {
 
 module.exports = {
   getBookingsByUsername,
-  createBooking
+  createBooking,
 };
